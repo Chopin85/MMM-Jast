@@ -89,6 +89,14 @@ export default class JastUtils {
     return stock.price?.regularMarketChangePercent
   }
 
+  static getStockChangePercentToBuy(stock: StockResponse): number {
+    return (stock.price?.regularMarketPrice - stock.meta.buyPrix) / stock.price?.regularMarketPrice
+  }
+
+  static getStockChangeProfit(stock: StockResponse): number {
+    return stock.price?.regularMarketPrice * stock.meta.quantity - stock.meta.buyPrix * stock.meta.quantity
+  }
+
   static getCurrentValue(stock: StockResponse): number {
     return stock.price?.regularMarketPrice
   }
@@ -106,6 +114,10 @@ export default class JastUtils {
     return JastUtils.getStockChangePercent(stock).toLocaleString(config.locale, JastUtils.getPercentStyle(config))
   }
 
+  static getStockChangePercentAsStringToBuy(stock: StockResponse, config: Config): string {
+    return JastUtils.getStockChangePercentToBuy(stock).toLocaleString(config.locale, JastUtils.getPercentStyle(config))
+  }
+
   static getCurrentValueAsString(stock: StockResponse, config: Config): string {
     return JastUtils.getCurrentValue(stock).toLocaleString(
       config.locale,
@@ -115,8 +127,8 @@ export default class JastUtils {
     )
   }
 
-  static getPurchasePriceAsString(stock: StockResponse, config: Config): string {
-    return stock.meta.purchasePrice.toLocaleString(
+  static getStockChangeProfitAsString(stock: StockResponse, config: Config): string {
+    return JastUtils.getStockChangeProfit(stock).toLocaleString(
       config.locale,
       Object.assign(JastUtils.getCurrentValueStyle(config), {
         currency: stock.price.currency

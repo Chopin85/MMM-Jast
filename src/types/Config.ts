@@ -35,6 +35,7 @@ export type Stock = {
   symbol: string
   name?: string
   quantity?: number
+  buyPrix?: number
   hidden?: boolean
   purchasePrice?: number
 }
